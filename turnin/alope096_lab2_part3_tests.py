@@ -102,7 +102,7 @@ void tick(){
       case start:
       break;
       case noParking:
-         cntavail = 0x00;
+         cntavail = 0x80;
       break;
       case oneSpot:
          cntavail = 0x01;
@@ -114,7 +114,7 @@ void tick(){
          cntavail = 0x03;
       break;
       case fourSpot:
-         cntavail = 0x84;
+         cntavail = 0x04;
       break;
    }   
    PORTC = cntavail;
