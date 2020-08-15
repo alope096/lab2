@@ -16,9 +16,9 @@
 
 int main(void) {
     /* Insert DDR and PORT initializations */
-	DDRA = 0X00; PORTA = 0XFF; //input of cart A
-	DDRB = 0X00; PORTB = 0XFF;// input for cart B
-	DDRC = 0x00; PORTC = 0xFF; // input for cart C
+	DDRA = 0X00; PORTA = 0X00; //input of cart A
+	DDRB = 0X00; PORTB = 0X00;// input for cart B
+	DDRC = 0x00; PORTC = 0x00; // input for cart C
         DDRD= 0xFF; PORTD = 0x00; // output of carts
 	
        
@@ -26,39 +26,36 @@ int main(void) {
      
     /* Insert your solution below */
     while (1) {
-        unsigned char seatA = PINA & 0xFF;
-     	unsigned char seatB = PINB & 0xFF;
-    	unsigned char seatC = PINC & 0xFF;
-  	unsigned char totalWeight = 0;
-	unsigned char overWeight = 0;
-        unsigned char differenceWeight = 0;
-	unsigned char exceedsWeight = 0;
-       
-	totalWeight = seatA + seatB + seatC;
-
-	differenceWeight = seatA - seatC;
-
-        if (differenceWeight <0){
-           differenceWeight = differenceWeight * (-1);
-        }
-
-	if (seatA > 0x8C || seatB > 0x8C || seatC > 0x8C || totalWeight > 0x8C){
-         overWeight = 0x01;
-     	}
-	else{
-	  overWeight = 0x00;
-	}
-
-	if(differenceWeight > 0x50){
-	   exceedsWeight = 0x01;
-	}
-	else {
-	   exceedsWeight = 0x00;
-	}
+        unsigned char seatA = PINA;
+     	unsigned char seatB = PINB;
+    	unsigned char seatC = PINC;
+  	unsigned char totalWeight;
+	unsigned char overWeight;
+        unsigned char differenceWeight1;
+	unsigned char exceedsWeight;
+        unsigned char differenceWeight2;
 	
-	PORTD = (totalWeight << 5) || (overWeight || exceedsWeight);
-	  
+        totalWeight = seatA + seatB + seatC;
 
+	differenceWeight1 = seatA - seatC;
+	differenceWeight2 = seatC - seatA;
+        if(totalWeight > 140){
+           overWeight = 0x01;
+        }
+        else{
+           overWeight = 0x00;
+        }
+        if( seatA == seatB){
+           exceedsWeight = 0x00;
+        }
+        if(differenceWeight1 > 80 || differenceWeight2 > 80){
+           exceedsWeight = 0x02;
+        }
+       else{
+           exceedsWeight = 0x00;
+        }
+      
+	PORTD = (totalWeight << 5) | overWeight | exceedsWeight;
      
     }
     return 1;
