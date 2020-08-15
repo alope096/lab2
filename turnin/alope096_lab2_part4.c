@@ -39,7 +39,7 @@ int main(void) {
         seatC = PINC;
 	
         totalWeight = seatA + seatB + seatC;
-        average= totalWeight;
+        average= totalWeight/15;
         weight = average;
         finalWeight = weight << 2;
 
