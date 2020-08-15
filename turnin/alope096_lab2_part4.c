@@ -39,9 +39,10 @@ int main(void) {
         seatC = PINC;
 	
         totalWeight = seatA + seatB + seatC;
-        average= totalWeight/15;
-        weight = average;
-        finalWeight = weight << 2;
+        average= totalWeight/4;
+        weight = average & 0xFC;
+        finalWeight = weight;
+       
 
         if(totalWeight > 140){
            weight = weight + 0x01;
@@ -53,7 +54,7 @@ int main(void) {
    
       
 	PORTD = weight;
-        finalWeight = 0x00;
+
     }
     return 1;
 }
